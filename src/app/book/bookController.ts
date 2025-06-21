@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { Book } from "./bookModel";
 
-export const booksRouter = express.Router();
+const booksRouter = express.Router();
 
 booksRouter.post("/", async (req: Request, res: Response) => {
   try {
@@ -14,13 +14,13 @@ booksRouter.post("/", async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     if (error.name === "ValidationError") {
-      return res.status(400).json({
+      res.status(400).json({
         message: "Validation failed",
         success: false,
         error: error,
       });
     }
-    return res.status(500).json({
+    res.status(500).json({
       message: "Failed to create book",
       success: false,
       error: error.message || error,
@@ -76,10 +76,10 @@ booksRouter.put("/:bookId", async (req: Request, res: Response) => {
     const updateData = req.body;
     const books = await Book.findByIdAndUpdate(bookId, updateData, {
       new: true,
-      runValidators: true
+      runValidators: true,
     });
     if (!books) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         message: "Book not found",
       });
@@ -100,11 +100,21 @@ booksRouter.put("/:bookId", async (req: Request, res: Response) => {
 booksRouter.delete("/:bookId", async (req: Request, res: Response) => {
   try {
     const bookId = req.params.bookId;
+    console.log("Book deletion attempted for ID:", bookId);
+
     const books = await Book.findByIdAndDelete(bookId);
+    if (!books) {
+      res.status(404).json({
+        success: false,
+        message: "Book not found",
+        data: null,
+      });
+    }
+
     res.status(200).json({
       success: true,
       message: "Book deleted successfully",
-      data: books,
+      data: null,
     });
   } catch (error: any) {
     res.status(500).json({
@@ -113,3 +123,4 @@ booksRouter.delete("/:bookId", async (req: Request, res: Response) => {
     });
   }
 });
+export default booksRouter;
