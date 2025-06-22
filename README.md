@@ -44,17 +44,24 @@ You can create, read, update, and delete books, and manage borrowing records.
    ```bash
    npm install 
    ```
-3. Run in Development Mode
+3. Set Environment Variables  
+   Create a .env file in the root directory and add:  
+   PORT=5000  
+DATABASEUSER=your_mongodb_username  
+DATABASEPASSWORD=your_mongodb_password
+
+  
+4. Run in Development Mode
 
    ```bash
    npm run dev
    ```
-4. Build for Production
+5. Build for Production
 
    ```bash
    npm run build
    ```
-5. Start Production Server
+6. Start Production Server
 
    ```bash
    npm start
