@@ -3,7 +3,7 @@ import { Iborrowed } from "./iborrow";
 
 const borrowSchema = new Schema<Iborrowed>(
   {
-    book: { type: Schema.Types.ObjectId, ref: "Book", requiredPaths: true },
+    book: { type: Schema.Types.ObjectId, ref: "Book", required: true },
     quantity: {
       type: Number,
       required: true,
